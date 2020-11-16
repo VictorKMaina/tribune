@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-dark">
+            <div>
+                <a class="navbar-brand" href="{% url 'newsToday' %}">Navbar</a>
+            </div>
+            <div class="col-sm-4 col-md-4 navbar-right">
+                <form class="form-inline my-2 my-lg-0" role="search" action="{% url "search_results" %}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search Article" name="article"/>
+
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </body>
+</html>
