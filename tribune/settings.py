@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 import django_heroku
-from decouple import config, Csv
+import dj_database_url
+from decouple import Csv, config
 
 import cloudinary
 import cloudinary.uploader
@@ -27,14 +27,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-MODE = config("MODE", default = "dev")
+ENV_FILE = ".env"
+
+MODE = config("MODE", default="dev")
 SECRET_KEY = config("SECRET_KEY")
-DEBUG = config("DEBUG", default = False, cast = bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 if config("MODE") == "dev":
     DATABASES = {
         "default": {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+           'ENGINE': 'django.db.backends.postgresql_psycopg2',
            'NAME': config('DB_NAME'),
            'USER': config('DB_USER'),
            'PASSWORD': config('DB_PASSWORD'),
@@ -43,14 +45,16 @@ if config("MODE") == "dev":
         }
     }
 else:
-    DATABASES = {
-        'default': dj_database_url.config(default = config("DATABASE_URL"))
-    }
+   DATABASES = {
+       'default': dj_database_url.config(
+           default=config('DATABASE_URL')
+       )
+   }
 
-db_from_env = dj_database_url.config(conn_max_age = 500)
-DATABASES["default"].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast = Csv)
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast = Csv())
 
 
 # Application definition
@@ -64,7 +68,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary'
+    'cloudinary',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -154,5 +159,12 @@ django_heroku.settings(locals())
 cloudinary.config( 
   cloud_name = "victormainak", 
   api_key = "814948995975825", 
-  api_secret = "562WVS3cvzTD_PrlByxy357ac5A " 
+  api_secret = "562WVS3cvzTD_PrlByxy357ac5A" 
 )
+
+SENDGRID_API_KEY = config("SENDGRID_API_KEY")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")

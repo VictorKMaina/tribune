@@ -1,23 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
-    <body>
-        <nav class="navbar navbar-dark bg-dark">
-            <div>
-                <a class="navbar-brand" href="{% url 'newsToday' %}">Navbar</a>
-            </div>
-            <div class="col-sm-4 col-md-4 navbar-right">
-                <form class="form-inline my-2 my-lg-0" role="search" action="{% url "search_results" %}">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search Article" name="article"/>
 
-                    <button class="btn btn-primary my-2 my-sm-0" type="submit">
-                        Search
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+        <div>
+            <a class="navbar-brand" href="{% url 'newsToday' %}">Navbar</a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
                     </button>
-                </form>
-            </div>
-        </nav>
-    </body>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{% url 'newsToday' %}">Home</a>
+                        <a class="dropdown-item" href="{% url 'new-article' %}">Create Article</a>
+                        <a class="dropdown-item" href="/accounts/password/change">Change Password</a>
+                        <a class="dropdown-item" href="/account/logout/">Logout</a>
+                    </div>
+                </div>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/login/">Login</a>
+                </li>                
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/register/">Sign Up</a>
+                </li>
+                {% endif %}
+            </ul>
+            <form class="form-inline my-2 my-lg-0" role="search" action="{% url "search_results" %}">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Article" name="article">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</body>
+
 </html>

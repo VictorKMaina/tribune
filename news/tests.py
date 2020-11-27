@@ -71,6 +71,7 @@ class ArticleTestClass(TestCase):
         self.new_article.save()
 
         self.new_article.tags.add(self.new_tag)
+        print("\n", "tags: ", self.new_article.tags.all(), "\n")
 
     def tearDown(self):
         Editor.objects.all().delete()
